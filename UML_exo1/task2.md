@@ -3,19 +3,18 @@ classDiagram
     class Patient {
         +String patientId
         +String name
-        +submitProblem(description String)
-        +payBill(amount Float)
+        +submitProblem(description)
+        +payBill(amount)
     }
     class Organizer {
         +String organizerId
         +maintainDatabase()
         +forwardPrescription()
-        +payDoctor()
     }
     class Doctor {
         +String doctorId
         +String specialty
-        +reviewProblem(problemId String)
+        +reviewProblem(problemId)
         +providePrescription()
     }
     class HealthProblem {
@@ -27,14 +26,13 @@ classDiagram
         +String medication
     }
     class Payment {
-        <<abstract>>
         +float amount
     }
     class Check { +String checkNumber }
     class Cash { +float amountReceived }
     class CreditCard { +String cardNumber }
 
-    Patient -- HealthProblem : submits
+    Patient -- HealthProblem : owns
     HealthProblem -- Organizer : reviews
     Organizer -- Doctor : consults
     Doctor -- Prescription : writes
@@ -44,6 +42,7 @@ classDiagram
     Payment <|-- Check
     Payment <|-- Cash
     Payment <|-- CreditCard
+
 
 sequenceDiagram
     autonumber
