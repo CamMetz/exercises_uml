@@ -1,39 +1,39 @@
-```plantuml
-@startuml
+```mermaid
+classDiagram
 
 class Patient {
-  +id: int
-  +name: string
+  +int id
+  +string name
   +submitProblem()
   +pay()
 }
 
 class Organizer {
-  +id: int
-  +name: string
+  +int id
+  +string name
   +consultDoctor()
   +sendPrescription()
   +manageSystem()
 }
 
 class Doctor {
-  +id: int
-  +name: string
+  +int id
+  +string name
   +providePrescription()
 }
 
 class HealthProblem {
-  +description: string
-  +date: Date
+  +string description
+  +Date date
 }
 
 class Prescription {
-  +details: string
-  +date: Date
+  +string details
+  +Date date
 }
 
 class Payment {
-  +amount: float
+  +float amount
   +pay()
 }
 
@@ -41,9 +41,8 @@ class Check
 class Cash
 class CreditCard
 
-' Relationships
-Patient "1" --> "1..*" HealthProblem : submits
-HealthProblem --> Prescription : results in
+Patient --> HealthProblem : submits
+HealthProblem --> Prescription : results
 Doctor --> Prescription : creates
 Organizer --> Doctor : consults
 Organizer --> Patient : communicates
@@ -52,30 +51,6 @@ Patient --> Payment : makes
 Organizer --> Payment : processes
 Doctor --> Payment : receives
 
-' Inheritance for payment types
 Payment <|-- Check
 Payment <|-- Cash
 Payment <|-- CreditCard
-
-@enduml
-
-
-```md
-```plantuml
-@startuml
-
-actor Patient
-participant Organizer
-participant Doctor
-participant Payment
-
-Patient -> Organizer : submitHealthProblem()
-Organizer -> Doctor : consult(problem)
-Doctor -> Organizer : prescription
-Organizer -> Patient : sendPrescription()
-
-Patient -> Payment : makePayment()
-Payment -> Organizer : confirmPayment()
-Organizer -> Doctor : transferPayment()
-
-@enduml
