@@ -3,52 +3,33 @@
  ```mermaid
 classDiagram
     class Patient {
-        - int patientID
-        - String name
-        - String healthHistory
-        - String paymentMethod
-        + postProblem(String description)
-        + pay(float amount)
-        + viewPrescription()
-    }
-
-    class Doctor {
-        - int doctorID
-        - String name
-        - String specialty
-        - float balance
-        + consultProblem(Problem p)
-        + providePrescription(String details)
-        + receivePayment(float amount)
+        +String patientId
+        +String name
+        +String password
+        +String email
+        +submitProblem(description: String)
+        +payBill(amount: Float)
     }
 
     class Organizer {
-        - int staffID
-        - String name
-        - String accessLevel
-        + manageDatabase()
-        + forwardPrescription()
-        + issueCredentials(int memberID)
+        +String organizerId
+        +String name
+        +String password
+        +maintainDatabase()
+        +issueCredentials(userType: String)
+        +forwardPrescription()
     }
 
-    class HealthProblem {
-        - int problemID
-        - String description
-        - String status
-        - Date datePosted
+    class Doctor {
+        +String doctorId
+        +String name
+        +String password
+        +String specialty
+        +reviewProblem(problemId: String)
+        +providePrescription()
     }
 
-    class Prescription {
-        - int prescriptionID
-        - String medication
-        - String instructions
-    }
-
-    Patient "1" -- "0..*" HealthProblem : "posts >"
-    Organizer "1" -- "*" HealthProblem : "reviews >"
-    Doctor "1" -- "*" HealthProblem : "consults <"
-    Doctor "1" -- "*" Prescription : "writes >"
-    Organizer "1" -- "*" Prescription : "forwards >"
-    Patient "1" -- "0..*" Prescription : "receives <"
-    Organizer "1" -- "*" Patient : "manages >"
-    Organizer "1" -- "*" Doctor : "manages >"
+    %% Relations basées sur le workflow de l'exercice
+    Patient "1" -- "1..*" Organizer : submit problem / pay
+    Organizer "1" -- "1..*" Doctor : consults / forwards
+    Doctor "1" -- "1" Organizer : sends prescription" Doctor : "manages >"
