@@ -3,8 +3,8 @@ classDiagram
     class Patient {
         +String patientId
         +String name
-        +submitProblem(description: String)
-        +payBill(amount: Float)
+        +submitProblem(description String)
+        +payBill(amount Float)
     }
 
     class Organizer {
@@ -17,14 +17,13 @@ classDiagram
     class Doctor {
         +String doctorId
         +String specialty
-        +reviewProblem(problemId: String)
+        +reviewProblem(problemId String)
         +providePrescription()
     }
 
     class HealthProblem {
         +String problemId
         +String description
-        +String status
     }
 
     class Prescription {
@@ -42,15 +41,31 @@ classDiagram
     class Cash { +float amountReceived }
     class CreditCard { +String cardNumber }
 
-    %% Relations entre les classes
-    Patient "1" -- "*" HealthProblem : "submits"
-    HealthProblem "*" -- "1" Organizer : "reviewed by"
-    Organizer "1" -- "*" Doctor : "consults"
-    Doctor "1" -- "*" Prescription : "writes"
-    Prescription "*" -- "1" Organizer : "returned to"
-    Organizer "1" -- "1" Patient : "forwards prescription"
+    Payment <|-- Check
+    Payment <|-- Cash
+    Payment <|-- CreditCard
+
+    Patient -- HealthProblem : submits
+    HealthProblem -- Organizer : reviews
+    Organizer -- Doctor : consults
+    Doctor -- Prescription : writes
+    Prescription -- Organizer : returns
+    Organizer -- Patient : forwards
+    Patient -- Payment : pays
+
+sequenceDiagram
+    autonumber
+    actor P as Patient
+    participant O as Organizer
+    participant D as Doctor
+    participant Pay as Payment_System
+
+    P->>O: submitProblem(description)
+    Note right of O: Organizer logs the problem
+    O->>D: reviewProblem(problemId)
+    D->>O: providePrescription(medication)
+    O->>P: forwardPrescription()
     
-    Patient "1" -- "*" Payment : "makes"
-    Payment <|-- Check : "is a type of"
-    Payment <|-- Cash : "is a type of"
-    Payment <|-- CreditCard : "is a type of"roblem : manages
+    P->>Pay: payBill(amount)
+    Pay-->>P: confirmTransaction
+    Note over O,D: Organizer forwards fee to Doctor
