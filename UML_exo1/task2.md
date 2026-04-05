@@ -74,20 +74,3 @@ Patient ->> Payment : pay
 Payment -->> Organizer : confirmation
 Organizer ->> Doctor : transfer money
 ```
-
-```mermaid
-sequenceDiagram
-
-actor Patient
-participant Organizer
-participant Doctor
-participant Payment
-
-Patient ->> Organizer : submit problem
-Organizer ->> Doctor : consult
-Doctor -->> Organizer : prescription
-Organizer -->> Patient : send prescription
-
-Patient ->> Payment : pay
-Payment -->> Organizer : confirmation
-Organizer ->> Doctor : transfer money
