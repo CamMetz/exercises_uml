@@ -29,7 +29,6 @@ classDiagram
         +providePrescription()
     }
 
-    %% Relations basées sur le workflow de l'exercice
     Patient "1" -- "1..*" Organizer : submit problem / pay
     Organizer "1" -- "1..*" Doctor : consults / forwards
     Doctor "1" -- "1" Organizer : sends prescription" Doctor : "manages >"
