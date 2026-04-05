@@ -1,11 +1,12 @@
 ## Class Diagram
+
 ```mermaid
 classDiagram
 
 class User {
-  +int id
-  +string name
-  +string password
+  +id : int
+  +name : string
+  +password : string
   +login()
   +logout()
 }
@@ -31,18 +32,18 @@ User <|-- Organizer
 User <|-- Doctor
 
 class HealthProblem {
-  +string description
-  +Date date
-  +string status
+  +description : string
+  +date : string
+  +status : string
 }
 
 class Prescription {
-  +string details
-  +Date date
+  +details : string
+  +date : string
 }
 
 class Payment {
-  +float amount
+  +amount : float
   +pay()
 }
 
@@ -50,15 +51,13 @@ class Check
 class Cash
 class CreditCard
 
-' Inheritance (polymorphism)
 Payment <|-- Check
 Payment <|-- Cash
 Payment <|-- CreditCard
 
-' Relationships
 Patient --> HealthProblem : submits
 HealthProblem --> Prescription : results
-HealthProblem --> "0..*" Prescription : history
+HealthProblem --> Prescription : history
 Doctor --> Prescription : creates
 Organizer --> Doctor : consults
 Organizer --> Patient : communicates
