@@ -11,10 +11,12 @@ classDiagram
         +String organizerId
         +maintainDatabase()
         +forwardPrescription()
+        +payDoctor()
     }
 
     class Doctor {
         +String doctorId
+        +String specialty
         +reviewProblem(problemId: String)
         +providePrescription()
     }
@@ -22,53 +24,33 @@ classDiagram
     class HealthProblem {
         +String problemId
         +String description
-        +Date datePosted
+        +String status
     }
 
     class Prescription {
         +String prescriptionId
-        +String details
+        +String medication
     }
 
     class Payment {
         <<abstract>>
         +float amount
-        +Date date
-        +validate()
+        +process()
     }
 
     class Check { +String checkNumber }
-    class Cash { +float tenderedAmount }
+    class Cash { +float amountReceived }
     class CreditCard { +String cardNumber }
 
-    %% Héritage pour les paiements
-    Payment <|-- Check
-    Payment <|-- Cash
-    Payment <|-- CreditCard
-
-```mermaid
-sequenceDiagram
-    autonumber
-    actor P as Patient
-    participant O as Organizer
-    participant D as Doctor
-    participant Pay as Payment (CreditCard)
-
-    Note over P, D: Scénario : Soumission, Traitement et Paiement
-
-    P->>O: submitProblem("Mal de gorge")
-    O->>D: reviewProblem(problemId)
-    D->>O: providePrescription("Antibiotiques")
-    O->>P: forwardPrescription()
+    %% Relations entre les classes
+    Patient "1" -- "*" HealthProblem : "submits"
+    HealthProblem "*" -- "1" Organizer : "reviewed by"
+    Organizer "1" -- "*" Doctor : "consults"
+    Doctor "1" -- "*" Prescription : "writes"
+    Prescription "*" -- "1" Organizer : "returned to"
+    Organizer "1" -- "1" Patient : "forwards prescription"
     
-    P->>Pay: payBill(amount)
-    Pay-->>P: confirmPayment()
-    P->>O: sendPaymentProof()
-    O->>D: forwardPaymentToDoctor()
-
-    %% Relations
-    Patient "1" *-- "*" HealthProblem : owns
-    HealthProblem "1" -- "0..1" Prescription : generates
-    Doctor "1" --> "*" Prescription : writes
-    Patient "1" -- "*" Payment : makes
-    Organizer "1" --> "*" HealthProblem : manages
+    Patient "1" -- "*" Payment : "makes"
+    Payment <|-- Check : "is a type of"
+    Payment <|-- Cash : "is a type of"
+    Payment <|-- CreditCard : "is a type of"roblem : manages
