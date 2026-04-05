@@ -54,10 +54,27 @@ Doctor --> Payment : receives
 Payment <|-- Check
 Payment <|-- Cash
 Payment <|-- CreditCard
+```
 
 
+```mermaid
+sequenceDiagram
 
-```md
+actor Patient
+participant Organizer
+participant Doctor
+participant Payment
+
+Patient ->> Organizer : submit problem
+Organizer ->> Doctor : consult
+Doctor -->> Organizer : prescription
+Organizer -->> Patient : send prescription
+
+Patient ->> Payment : pay
+Payment -->> Organizer : confirmation
+Organizer ->> Doctor : transfer money
+```
+
 ```mermaid
 sequenceDiagram
 
