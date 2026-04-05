@@ -29,5 +29,7 @@ classDiagram
         +providePrescription()
     }
 
-    Patient -- Organizer : interacts
-    Organizer -- Doctor : coordinates
+    Patient --> Organizer : Submits problem to
+    Organizer --> Doctor : Consults
+    Doctor --> Organizer : Returns prescription to
+    Organizer --> Patient : Forwards prescription to
