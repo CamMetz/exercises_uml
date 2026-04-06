@@ -1,29 +1,31 @@
-ses
+```mermaid
+classDiagram
 
-uses
+class ConfigManager {
+    -_instance: ConfigManager
+    -_config: dict
+    +get_instance() ConfigManager
+    +get(key: str)
+    +reload()
+}
 
-uses
+class DatabaseService {
+    +connect()
+}
 
-ConfigManager
+class EmailService {
+    +send_email(to, subject)
+}
 
-_instance : ConfigManager
+class PaymentService {
+    +process_payment(amount)
+}
 
-_config : dict
+%% Singleton self-reference
+ConfigManager --> ConfigManager : instance
 
-new() : creates single instance
-
-get(key) : returns config value
-
-reload() : reloads from file
-
-DatabaseService
-
-+connect()
-
-EmailService
-
-+send_email(to, subject)
-
-PaymentService
-
-+process_payment(amount)
+%% Uses relationships
+DatabaseService --> ConfigManager : uses
+EmailService --> ConfigManager : uses
+PaymentService --> ConfigManager : uses
+```
