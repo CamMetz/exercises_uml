@@ -1,14 +1,29 @@
-```mermaid
-classDiagram
+ses
 
-class ConfigManager {
-    -instance: ConfigManager
-    -config: dict
-    -__init__()
-    +get_instance() ConfigManager
-    +get(key: str) any
-    -_load_config() void
-}
+uses
 
-ConfigManager --> ConfigManager : singleton instance
-```
+uses
+
+ConfigManager
+
+_instance : ConfigManager
+
+_config : dict
+
+new() : creates single instance
+
+get(key) : returns config value
+
+reload() : reloads from file
+
+DatabaseService
+
++connect()
+
+EmailService
+
++send_email(to, subject)
+
+PaymentService
+
++process_payment(amount)
