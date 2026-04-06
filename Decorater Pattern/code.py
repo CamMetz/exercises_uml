@@ -86,8 +86,8 @@ class DiscountDecorator(OrderDecorator):
 
     def get_description(self) -> str:
         return self.component.get_description() + "\nPremium member: -10%"
-
-    if __name__ == "__main__":
+        
+if __name__ == "__main__":
     order = BaseOrder(100.00)
 
     order = ExpressShippingDecorator(order)
